@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <!-- Load properties file -->
+    <context:property-placeholder location="classpath:sport.properties"/>
+
+    <!-- Bean definitions -->
+    <bean id="myFortuneService"
+    	  class="com.pschaefer.springdemo.Service.HappyFortuneService" />
+    <bean id="randFortuneService"
+    	  class="com.pschaefer.springdemo.Service.RandomFortuneService" />
+    
+    <bean id="myCoach"
+    	  class="com.pschaefer.springdemo.Model.TrackCoach">    	  
+    	<!-- Setup constructor injection -->
+    	<constructor-arg ref="myFortuneService" />
+    </bean>
+    
+    <bean id="myCricketCoach"
+          class="com.pschaefer.springdemo.Model.CricketCoach"
+          scope="singleton">  <!-- default but why not specify? -->          
+          <!-- Setup setter injection -->
+          <property name="fortuneService" ref="${coach.fortuneService}" />
+          <property name="emailAddress" value="${coach.email}" />
+          <property name="teamName" value="${coach.team}" />
+    </bean>
+    
+</beans>
+
+
+
+
+
